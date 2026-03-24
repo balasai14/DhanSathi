@@ -1,285 +1,293 @@
-# Finova AI - AI-Powered Personal Finance Intelligence System
+# FinanceIQ — AI-Powered Personal Finance Intelligence System
 
-## 🎯 Problem Statement
+A full-stack platform for **portfolio tracking, financial analysis, simulation, and AI-powered advice**. Think Groww + Virtual CFO.
 
-An AI-powered personal finance agent that delivers deeply personalized financial insights through natural language interactions. The solution analyzes structured financial data (assets, liabilities, investments, credit score, EPF, etc.), simulates financial scenarios, and provides actionable recommendations while ensuring user privacy and data control.
-
-## ✨ Key Features
-
-### 1. **AI-Driven Financial Advisor**
-- Natural language chat interface powered by Google Gemini AI
-- Contextual analysis of your complete financial profile
-- Personalized recommendations based on real-time data
-- Privacy mode for sensitive data masking
-
-### 2. **Comprehensive Financial Data Management**
-- Structured data ingestion supporting:
-  - Income & Expenses tracking
-  - Investment portfolio (Stocks, Mutual Funds, Bonds, Gold, Real Estate, EPF, PPF, NPS, FD, Crypto)
-  - Liabilities (Home Loan, Car Loan, Personal Loan, Education Loan, Credit Card Debt)
-  - Insurance coverage (Life, Health, Term)
-  - Credit score monitoring
-  - Risk profile assessment
-
-### 3. **Scenario Simulation Engine**
-- What-if analysis for financial decisions
-- Compound interest calculations
-- Debt repayment vs investment comparison
-- Multi-year wealth projection with visual charts
-- Real-time parameter adjustments
-
-### 4. **Financial Health Score**
-- Dynamic scoring algorithm based on:
-  - Savings rate (40% weight)
-  - Debt-to-asset ratio (35% weight)
-  - Credit score (25% weight)
-- Visual health ring with color-coded status
-- Actionable insights for improvement
-
-### 5. **Security & Privacy**
-- JWT-based authentication with HTTP-only cookies
-- bcrypt password hashing
-- Privacy-aware AI prompts (optional data masking)
-- Secure MongoDB data storage
-- CORS protection
-
-## 🏗️ Architecture
-
-### Tech Stack
-
-**Frontend:**
-- React 19 with Vite
-- React Router for navigation
-- Chart.js for data visualization
-- Axios for API communication
-- Lucide React for icons
-- React Markdown for AI responses
-
-**Backend:**
-- Node.js with Express 5
-- MongoDB with Mongoose ODM
-- Google Gemini AI (gemini-1.5-flash)
-- JWT authentication
-- Cookie-based session management
-
-### Project Structure
-
-```
-├── server/
-│   ├── controllers/
-│   │   ├── aiController.js       # AI analysis & simulation logic
-│   │   ├── authController.js     # Authentication endpoints
-│   │   └── financeController.js  # Financial data CRUD
-│   ├── middleware/
-│   │   └── authMiddleware.js     # JWT verification
-│   ├── models/
-│   │   ├── User.js               # User schema
-│   │   └── FinancialProfile.js   # Financial data schema
-│   ├── utils/
-│   │   └── financeUtils.js       # Calculation utilities
-│   ├── .env.example              # Environment template
-│   └── server.js                 # Express app entry
-├── src/
-│   ├── components/               # Reusable UI components
-│   ├── context/
-│   │   └── AuthContext.jsx       # Global auth state
-│   ├── pages/
-│   │   ├── Landing.jsx           # Marketing landing page
-│   │   ├── Auth.jsx              # Login/Signup
-│   │   ├── Dashboard.jsx         # Financial overview
-│   │   ├── AIChat.jsx            # AI advisor interface
-│   │   ├── Simulator.jsx         # Scenario modeling
-│   │   ├── Recommendations.jsx   # AI insights
-│   │   └── Settings.jsx          # User preferences
-│   └── App.jsx                   # Main app router
-└── README.md
-```
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Node.js (v18 or higher)
-- MongoDB (local or Atlas)
-- Google Gemini API key
-
-### Installation
-
-1. **Clone the repository**
-```bash
-git clone <repository-url>
-cd ai-finance
-```
-
-2. **Install frontend dependencies**
-```bash
-npm install
-```
-
-3. **Install backend dependencies**
-```bash
-cd server
-npm install
-```
-
-4. **Configure environment variables**
-```bash
-cd server
-cp .env.example .env
-```
-
-Edit `server/.env` with your credentials:
-```env
-PORT=5000
-MONGO_URI=mongodb://localhost:27017/finova-ai
-JWT_SECRET=your_secure_jwt_secret_here
-GEMINI_API_KEY=your_gemini_api_key_here
-NODE_ENV=development
-```
-
-5. **Start MongoDB**
-```bash
-# If using local MongoDB
-mongod
-```
-
-6. **Start the backend server**
-```bash
-cd server
-npm run dev
-```
-
-7. **Start the frontend (in a new terminal)**
-```bash
-npm run dev
-```
-
-8. **Access the application**
-- Frontend: http://localhost:5173
-- Backend API: http://localhost:5000
-
-## 📊 API Endpoints
-
-### Authentication
-- `POST /api/auth/signup` - Create new account
-- `POST /api/auth/login` - User login
-- `POST /api/auth/demo` - Demo account login
-- `GET /api/auth/me` - Get current user
-- `POST /api/auth/logout` - Logout
-
-### Financial Data
-- `POST /api/finance/save` - Save/update financial profile
-- `GET /api/finance/get` - Retrieve financial profile
-
-### AI Intelligence
-- `POST /api/ai/analyze` - Get AI-powered financial advice
-- `POST /api/simulate` - Run scenario simulations
-- `POST /api/compute` - Calculate financial metrics
-
-## 🔐 Security Features
-
-1. **Authentication**
-   - JWT tokens with 7-day expiry
-   - HTTP-only cookies to prevent XSS
-   - bcrypt password hashing (10 rounds)
-
-2. **Privacy Controls**
-   - Privacy mode masks absolute values in AI prompts
-   - User-controlled data sharing preferences
-   - Local processing options
-
-3. **Data Protection**
-   - CORS configured for specific origin
-   - Environment variables for sensitive data
-   - MongoDB connection with authentication
-
-## 🎨 Key Differentiators
-
-### vs Generic Budgeting Tools
-
-1. **AI-Powered Reasoning**
-   - Contextual understanding of financial situations
-   - Personalized advice based on complete profile
-   - Natural language interaction
-
-2. **Scenario Simulation**
-   - Real-time what-if analysis
-   - Compound interest calculations
-   - Debt vs investment optimization
-
-3. **Comprehensive Data Model**
-   - Supports EPF, PPF, NPS (India-specific)
-   - Multiple asset classes
-   - Insurance tracking
-   - Risk profiling
-
-4. **Privacy-First Design**
-   - Optional data masking
-   - User-controlled AI interactions
-   - Transparent data usage
-
-## 📈 Performance Indicators
-
-- **Response Relevance**: AI responses contextualized to user's financial profile
-- **Personalization Quality**: Recommendations based on 15+ financial parameters
-- **Latency**: < 3s for AI analysis, < 500ms for simulations
-- **Privacy Approach**: Optional privacy mode with ratio-based analysis
-
-## 🧪 Demo Account
-
-Try the system without signup:
-- Click "Try Demo" on landing page
-- Pre-loaded with sample financial data
-- Full feature access
-
-## 🛠️ Development
-
-### Frontend Development
-```bash
-npm run dev      # Start Vite dev server
-npm run build    # Production build
-npm run preview  # Preview production build
-```
-
-### Backend Development
-```bash
-cd server
-npm run dev      # Start with nodemon (auto-reload)
-npm start        # Production start
-```
-
-## 📝 Future Enhancements
-
-- [ ] MCP (Model Context Protocol) integration
-- [ ] Voice-based interaction
-- [ ] Mobile app (React Native)
-- [ ] Advanced tax optimization
-- [ ] Goal-based planning
-- [ ] Multi-currency support
-- [ ] Bank account integration
-- [ ] Automated data sync
-- [ ] Social features (anonymous benchmarking)
-- [ ] Export reports (PDF)
-
-## 🤝 Contributing
-
-This is a prototype developed for the Open Innovation challenge. Contributions are welcome!
-
-## 📄 License
-
-This project is developed as part of an academic/innovation challenge.
-
-## 👥 Team
-
-Developed for the AI-Powered Personal Finance Intelligence System challenge.
-
-## 🙏 Acknowledgments
-
-- Google Gemini AI for natural language processing
-- MongoDB for flexible data storage
-- React and Vite for modern frontend development
-- Chart.js for beautiful visualizations
+> **Note:** Users cannot invest through the app — only tracking, analysis, and intelligent recommendations.
 
 ---
 
-**Note**: This is a prototype system. For production deployment, additional security hardening, testing, and compliance measures are required.
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| **Backend** | FastAPI (Python 3.11+) |
+| **Frontend** | Next.js 16, Tailwind CSS, Recharts |
+| **Database** | PostgreSQL |
+| **ORM** | SQLAlchemy 2.0 |
+| **Auth** | JWT (python-jose) + bcrypt |
+| **Market Data** | Yahoo Finance (yfinance) |
+| **AI Advisor** | Google Gemini / OpenAI GPT-4 |
+
+---
+
+## Prerequisites
+
+Before you start, make sure you have these installed:
+
+| Tool | Version | Check Command |
+|------|---------|--------------|
+| **Python** | 3.11+ | `python --version` |
+| **Node.js** | 18+ | `node --version` |
+| **npm** | 9+ | `npm --version` |
+| **PostgreSQL** | 14+ | `psql --version` |
+
+---
+
+## Step-by-Step Setup
+
+### STEP 1 — Clone & Enter the Project
+
+```bash
+cd designathon
+```
+
+---
+
+### STEP 2 — Set Up PostgreSQL Database
+
+Open a terminal and create the database:
+
+```bash
+# Windows (if psql is in PATH)
+psql -U postgres -c "CREATE DATABASE financeiq;"
+
+# Or use pgAdmin / any PostgreSQL GUI to create a database named "financeiq"
+```
+
+---
+
+### STEP 3 — Configure Environment Variables
+
+Edit the `.env` file in the project root:
+
+```env
+# --- Database ---
+# Replace with your actual PostgreSQL credentials
+DATABASE_URL=postgresql://postgres:YOUR_PASSWORD@localhost:5432/financeiq
+
+# --- JWT ---
+# Change this to a random secret string (min 32 chars)
+SECRET_KEY=your-super-secret-key-change-in-production-min-32-chars
+
+# --- AI Advisor (choose one) ---
+# Option A: Google Gemini (recommended — free tier available)
+AI_PROVIDER=gemini
+GEMINI_API_KEY=your_gemini_api_key_here
+# Get a free key at: https://aistudio.google.com/apikey
+
+# Option B: OpenAI
+# AI_PROVIDER=openai
+# OPENAI_API_KEY=your_openai_api_key_here
+```
+
+> **Important:** At minimum, update `DATABASE_URL` with your PostgreSQL password and set a `SECRET_KEY`.
+
+---
+
+### STEP 4 — Set Up the Backend (Python)
+
+```bash
+# Create a virtual environment
+python -m venv venv
+
+# Activate it
+venv\Scripts\activate          # Windows (Command Prompt)
+# venv\Scripts\Activate.ps1    # Windows (PowerShell)
+# source venv/bin/activate     # macOS / Linux
+
+# Install all Python dependencies
+pip install -r requirements.txt
+
+# Start the backend server
+uvicorn app.main:app --reload --port 8000
+```
+
+If everything works, you should see:
+```
+INFO:     Uvicorn running on http://127.0.0.1:8000
+INFO:     Application startup complete.
+```
+
+**Verify:** Open http://localhost:8000/docs to see the Swagger API documentation.
+
+> **Note:** The database tables are created automatically when the server starts — no need to run Alembic migrations manually for local development.
+
+---
+
+### STEP 5 — Set Up the Frontend (Next.js)
+
+Open a **new terminal** (keep the backend running in the first one):
+
+```bash
+# Go to the frontend directory
+cd frontend
+
+# Install Node.js dependencies
+npm install
+
+# Start the development server
+npm run dev
+```
+
+If everything works, you should see:
+```
+▲ Next.js 16.x.x
+- Local:   http://localhost:3000
+```
+
+**Verify:** Open http://localhost:3000 — you should see the login page.
+
+---
+
+### STEP 6 — Use the App
+
+1. **Sign Up** — Create an account at http://localhost:3000/auth
+2. **Add Data** — Start adding your income, expenses, investments, and loans
+3. **Dashboard** — View your portfolio summary, charts, and financial health metrics
+4. **Simulate** — Run SIP, compound growth, and loan payoff projections
+5. **AI Advisor** — Ask the Virtual CFO questions about your finances at /ai-chat
+
+---
+
+## Running (Day-to-Day)
+
+Every time you want to work on or use the app:
+
+```bash
+# Terminal 1 — Backend
+cd designathon
+venv\Scripts\activate
+uvicorn app.main:app --reload --port 8000
+
+# Terminal 2 — Frontend
+cd designathon\frontend
+npm run dev
+```
+
+Then open http://localhost:3000 in your browser.
+
+---
+
+## Project Structure
+
+```
+designathon/
+├── .env                             # Environment config (DB, keys)
+├── requirements.txt                 # Python dependencies
+├── README.md                        # This file
+│
+├── app/                             # Backend (FastAPI)
+│   ├── main.py                      # App entry point, CORS, routers
+│   ├── config.py                    # Settings from .env
+│   ├── database.py                  # DB engine & session
+│   │
+│   ├── models/                      # SQLAlchemy ORM models
+│   │   ├── user.py, income.py, expense.py, investment.py, loan.py
+│   │
+│   ├── schemas/                     # Pydantic request/response schemas
+│   │   ├── user.py, income.py, expense.py, investment.py, loan.py
+│   │   ├── portfolio.py, metrics.py, simulation.py
+│   │
+│   ├── routers/                     # API route handlers
+│   │   ├── auth.py                  # /auth — signup, login
+│   │   ├── income.py                # /income — CRUD
+│   │   ├── expense.py               # /expense — CRUD
+│   │   ├── investment.py            # /investment — CRUD
+│   │   ├── loan.py                  # /loan — CRUD
+│   │   ├── portfolio.py             # /portfolio — tracking
+│   │   ├── metrics.py               # /metrics — financial health
+│   │   ├── simulation.py            # /simulation — projections
+│   │   └── ai_chat.py               # /ai/chat — Virtual CFO
+│   │
+│   ├── services/                    # Business logic
+│   │   ├── auth_service.py          # Password hashing, JWT
+│   │   ├── market_data.py           # Yahoo Finance API
+│   │   ├── portfolio_engine.py      # Portfolio calculations
+│   │   ├── metrics_engine.py        # Financial metrics
+│   │   ├── simulation_engine.py     # Growth & loan projections
+│   │   ├── context_builder.py       # AI data gatherer
+│   │   └── ai_advisor.py            # LLM integration (Gemini/OpenAI)
+│   │
+│   └── utils/
+│       └── dependencies.py          # Auth middleware
+│
+├── alembic/                         # DB migrations (optional)
+│
+└── frontend/                        # Frontend (Next.js)
+    ├── .env.local                   # Frontend env (API URL)
+    ├── package.json                 # Node.js dependencies
+    │
+    └── src/
+        ├── app/                     # Pages (App Router)
+        │   ├── auth/page.tsx        # Login / Signup
+        │   ├── dashboard/page.tsx   # Main dashboard
+        │   ├── portfolio/page.tsx   # Investment management
+        │   ├── loans/page.tsx       # Loan & EMI tracking
+        │   ├── simulation/page.tsx  # Financial calculators
+        │   └── ai-chat/page.tsx     # Virtual CFO chat
+        │
+        ├── components/              # Reusable UI
+        │   ├── AppShell.tsx, Sidebar.tsx, Modal.tsx, StatCard.tsx
+        │
+        └── lib/                     # Core logic
+            ├── api.ts               # Backend API client
+            ├── auth-context.tsx     # Auth state management
+            └── helpers.ts           # Formatting utilities
+```
+
+---
+
+## API Endpoints
+
+### Auth (`/auth`)
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/auth/signup` | Register new user |
+| POST | `/auth/login` | Login → JWT token |
+| GET | `/auth/me` | Get current user profile |
+
+### Financial Data (`/income`, `/expense`, `/investment`, `/loan`)
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/income/` | Add income source |
+| GET | `/income/` | List all income |
+| POST | `/expense/` | Add expense |
+| GET | `/expense/` | List expenses |
+| POST | `/investment/` | Add investment |
+| GET | `/investment/` | List investments |
+| PUT | `/investment/{id}` | Update investment |
+| POST | `/loan/` | Add loan |
+| GET | `/loan/` | List loans |
+
+### Analytics
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/portfolio/summary` | Total value + P&L |
+| GET | `/portfolio/allocation` | Asset allocation breakdown |
+| GET | `/metrics/full-report` | Complete financial health |
+| POST | `/simulation/compound-growth` | Compound interest calculator |
+| POST | `/simulation/monthly-investment` | SIP projection |
+| POST | `/simulation/loan-payoff` | Loan amortization |
+
+### AI Advisor (`/ai`)
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/ai/chat` | Chat with Virtual CFO |
+
+---
+
+## Troubleshooting
+
+| Problem | Solution |
+|---------|----------|
+| `psycopg2` install fails | Install PostgreSQL dev headers: `pip install psycopg2-binary` |
+| Port 8000 in use | Use `uvicorn app.main:app --port 8001` and update `.env.local` |
+| Port 3000 in use | Use `npx next dev -p 3001` |
+| DB connection refused | Check PostgreSQL is running and `.env` has correct credentials |
+| AI advisor says "key not configured" | Add your Gemini/OpenAI API key to `.env` |
+| Frontend shows "API error" | Make sure backend is running on port 8000 |
+
+---
+
+## License
+MIT
