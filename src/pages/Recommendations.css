@@ -1,0 +1,119 @@
+.recommendations {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  animation: fadeIn var(--transition-base) ease-out;
+}
+
+.rec-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-md);
+}
+
+.rec-header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.rec-header-icon {
+  color: var(--primary-400);
+}
+
+.rec-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--space-lg);
+}
+
+.rec-card {
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  height: 100%;
+}
+
+.rec-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rec-card-icon-wrap {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: var(--bg-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-400);
+}
+
+.rec-card-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.rec-card-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  flex: 1;
+}
+
+.rec-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--bg-glass-border);
+}
+
+.rec-impact {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--success);
+}
+
+.rec-action-btn {
+  padding: 8px 14px;
+  font-size: 0.75rem;
+}
+
+/* Skeleton UI Styles */
+.skeleton-card {
+  background: var(--bg-glass);
+}
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--bg-tertiary);
+}
+
+.skeleton::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.skeleton-icon-wrap { width: 40px; height: 40px; border-radius: var(--radius-md); }
+.skeleton-title { height: 1.4rem; width: 70%; border-radius: 4px; }
+.skeleton-text { height: 0.8rem; border-radius: 4px; }
+.skeleton-footer { height: 1.2rem; width: 100%; border-radius: 4px; margin-top: auto; }

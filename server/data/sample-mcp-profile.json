@@ -1,0 +1,68 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-03-23T10:00:00.000Z",
+  "user": {
+    "name": "Sample User",
+    "email": "sample@example.com"
+  },
+  "financial_profile": {
+    "income": {
+      "monthly": 120000,
+      "annual": 1440000,
+      "currency": "INR"
+    },
+    "expenses": {
+      "monthly": 55000,
+      "annual": 660000,
+      "currency": "INR"
+    },
+    "assets": {
+      "liquid": {
+        "stocks": 350000,
+        "mutual_funds": 280000,
+        "bonds": 100000,
+        "crypto": 50000
+      },
+      "retirement": {
+        "epf": 450000,
+        "ppf": 200000,
+        "nps": 150000
+      },
+      "fixed": {
+        "fixed_deposits": 300000,
+        "gold": 180000,
+        "real_estate": 2500000
+      },
+      "total": 4560000
+    },
+    "liabilities": {
+      "secured": {
+        "home_loan": 1800000,
+        "car_loan": 250000,
+        "education_loan": 0
+      },
+      "unsecured": {
+        "personal_loan": 0,
+        "credit_card_debt": 35000
+      },
+      "total": 2085000
+    },
+    "insurance": {
+      "life_insurance": 5000000,
+      "health_insurance": 1000000,
+      "term_insurance": 10000000
+    },
+    "metrics": {
+      "credit_score": 780,
+      "net_worth": 2475000,
+      "savings_rate": 54.17,
+      "debt_to_asset_ratio": 45.72,
+      "monthly_surplus": 65000
+    },
+    "demographics": {
+      "age": 32,
+      "dependents": 2,
+      "risk_profile": "moderate"
+    }
+  }
+}
