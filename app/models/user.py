@@ -18,8 +18,11 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String(255), unique=True, nullable=False, index=True)
     full_name = Column(String(255), nullable=False)
-    hashed_password = Column(String(255), nullable=False)
+    hashed_password = Column(String(255), nullable=True)  # nullable for OAuth users
     is_active = Column(Boolean, default=True)
+    oauth_provider = Column(String(50), nullable=True)   # "google" or None
+    oauth_id = Column(String(255), nullable=True, index=True)  # Google sub ID
+    avatar_url = Column(String(500), nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
 
@@ -28,6 +31,13 @@ class User(Base):
     expenses = relationship("Expense", back_populates="owner", cascade="all, delete-orphan")
     investments = relationship("Investment", back_populates="owner", cascade="all, delete-orphan")
     loans = relationship("Loan", back_populates="owner", cascade="all, delete-orphan")
+    chat_sessions = relationship("ChatSession", back_populates="owner", cascade="all, delete-orphan")
+    budgets = relationship("Budget", back_populates="owner", cascade="all, delete-orphan")
+    emergency_funds = relationship("EmergencyFund", back_populates="owner", cascade="all, delete-orphan")
+    insurance_policies = relationship("InsurancePolicy", back_populates="owner", cascade="all, delete-orphan")
+    financial_goals = relationship("FinancialGoal", back_populates="owner", cascade="all, delete-orphan")
+    retirement_plans = relationship("RetirementPlan", back_populates="owner", cascade="all, delete-orphan")
+    tax_records = relationship("TaxRecord", back_populates="owner", cascade="all, delete-orphan")
 
     def __repr__(self):
         return f"<User id={self.id} email={self.email}>"
