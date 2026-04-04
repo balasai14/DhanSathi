@@ -38,11 +38,19 @@ export interface AuthResponse {
 }
 
 export const auth = {
-  signup: (email: string, full_name: string, password: string) =>
-    request<AuthResponse>("/auth/signup", { method: "POST", body: JSON.stringify({ email, full_name, password }) }),
+  sendOtp: (email: string, full_name: string, password: string) =>
+    request<{ message: string }>("/auth/send-otp", { method: "POST", body: JSON.stringify({ email, full_name, password }) }),
+  verifyOtp: (email: string, otp: string) =>
+    request<AuthResponse>("/auth/verify-otp", { method: "POST", body: JSON.stringify({ email, otp }) }),
   login: (email: string, password: string) =>
     request<AuthResponse>("/auth/login", { method: "POST", body: JSON.stringify({ email, password }) }),
   me: () => request<AuthResponse["user"]>("/auth/me"),
+  forgotPassword: (email: string) =>
+    request<{ message: string }>("/auth/forgot-password", { method: "POST", body: JSON.stringify({ email }) }),
+  resetPassword: (email: string, otp: string, new_password: string) =>
+    request<{ message: string }>("/auth/reset-password", { method: "POST", body: JSON.stringify({ email, otp, new_password }) }),
+  changePassword: (old_password: string, new_password: string) =>
+    request<{ message: string }>("/auth/change-password", { method: "POST", body: JSON.stringify({ old_password, new_password }) }),
 };
 
 /* ── Income ────────────────────────────────────────────── */

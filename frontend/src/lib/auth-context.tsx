@@ -9,14 +9,15 @@ interface AuthContextType {
   user: User | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
-  signup: (email: string, full_name: string, password: string) => Promise<void>;
+  sendOtp: (email: string, full_name: string, password: string) => Promise<void>;
+  verifyOtp: (email: string, otp: string) => Promise<void>;
   logout: () => void;
   refreshUser: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: null, loading: true,
-  login: async () => {}, signup: async () => {}, logout: () => {}, refreshUser: async () => {},
+  login: async () => {}, sendOtp: async () => {}, verifyOtp: async () => {}, logout: () => {}, refreshUser: async () => {},
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -41,8 +42,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser({ id: res.user.id, email: res.user.email, full_name: res.user.full_name });
   }, []);
 
-  const signup = useCallback(async (email: string, full_name: string, password: string) => {
-    const res: AuthResponse = await authApi.signup(email, full_name, password);
+  const sendOtp = useCallback(async (email: string, full_name: string, password: string) => {
+    await authApi.sendOtp(email, full_name, password);
+  }, []);
+
+  const verifyOtp = useCallback(async (email: string, otp: string) => {
+    const res: AuthResponse = await authApi.verifyOtp(email, otp);
     setToken(res.access_token);
     setUser({ id: res.user.id, email: res.user.email, full_name: res.user.full_name });
   }, []);
@@ -62,7 +67,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, signup, logout, refreshUser }}>
+    <AuthContext.Provider value={{ user, loading, login, sendOtp, verifyOtp, logout, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );
