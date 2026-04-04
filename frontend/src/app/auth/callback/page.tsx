@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { setToken } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
-export default function OAuthCallbackPage() {
+function OAuthCallbackContent() {
   const router = useRouter();
   const params = useSearchParams();
   const { refreshUser } = useAuth();
@@ -32,6 +32,7 @@ export default function OAuthCallbackPage() {
         }
       })
       .catch(() => router.replace("/auth?error=oauth_failed"));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -42,5 +43,13 @@ export default function OAuthCallbackPage() {
       </div>
       <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </div>
+  );
+}
+
+export default function OAuthCallbackPage() {
+  return (
+    <Suspense fallback={<div style={{ minHeight: "100vh", background: "var(--bg)" }}></div>}>
+      <OAuthCallbackContent />
+    </Suspense>
   );
 }
