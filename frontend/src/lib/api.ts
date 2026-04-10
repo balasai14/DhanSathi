@@ -266,10 +266,6 @@ export interface SessionDetail {
 export interface SessionChatResponse {
   message: SessionMessage;
   session_title: string;
-  verified: boolean;
-  confidence_score: number;
-  attempts: number;
-  verification_note: string;
 }
 
 export const ai = {

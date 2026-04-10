@@ -39,11 +39,9 @@ class Settings(BaseSettings):
     GOOGLE_CLIENT_SECRET: str = ""
     GOOGLE_REDIRECT_URI: str = "http://localhost:3000/auth/callback"
 
-    # ── Email / SMTP ──────────────────────────────────────
-    SMTP_HOST: str = "smtp.gmail.com"
-    SMTP_PORT: int = 587
-    SMTP_USER: str = ""
-    SMTP_PASSWORD: str = ""  # Gmail: use an App Password
+    # ── Email / Brevo ─────────────────────────────────────
+    BREVO_API_KEY: str = ""
+    BREVO_SENDER_EMAIL: str = ""  # must be verified in Brevo dashboard
 
     class Config:
         env_file = ".env"

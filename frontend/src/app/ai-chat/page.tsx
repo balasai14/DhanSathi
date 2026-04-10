@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import {
   Send, Sparkles, Loader2, Plus, Trash2, MessageSquare,
-  User, ChevronRight, CheckCircle, Bot, Mic, MicOff, Volume2, VolumeX,
+  User, ChevronRight, Bot, Mic, MicOff, Volume2, VolumeX,
 } from "lucide-react";
 import { ai as aiApi, type SessionOut, type SessionDetail, type SessionMessage } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
@@ -301,7 +301,7 @@ export default function AiChatPage() {
           </div>
           <div>
             <p style={{ fontSize: 13, fontWeight: 700, color: "var(--text-primary)" }}>{activeSession?.title || "DhanSathi AI"}</p>
-            <p style={{ fontSize: 10, color: "var(--text-muted)" }}>Virtual CFO · GAN-verified · Dual-LLM</p>
+            <p style={{ fontSize: 10, color: "var(--text-muted)" }}>Virtual CFO · AI-powered</p>
           </div>
         </div>
 
@@ -345,7 +345,6 @@ export default function AiChatPage() {
                     <Loader2 size={13} style={{ color: "var(--indigo)", animation: "spin 1s linear infinite" }} />
                     <div>
                       <p style={{ fontSize: 12, color: "var(--text-secondary)" }}>Analysing your financial data...</p>
-                      <p style={{ fontSize: 10, color: "var(--text-muted)", marginTop: 1 }}>GAN verification in progress</p>
                     </div>
                   </div>
                 </div>
@@ -399,8 +398,8 @@ export default function AiChatPage() {
                 <Send size={14} color={input.trim() ? "white" : "#64748b"} />
               </button>
             </div>
-            <p style={{ fontSize: 9, color: "var(--text-muted)", textAlign: "center", marginTop: 5, display: "flex", alignItems: "center", justifyContent: "center", gap: 4 }}>
-              <CheckCircle size={8} /> Dual-LLM GAN verified
+            <p style={{ fontSize: 9, color: "var(--text-muted)", textAlign: "center", marginTop: 5 }}>
+              Powered by AI · Your data stays private
             </p>
           </div>
         )}
