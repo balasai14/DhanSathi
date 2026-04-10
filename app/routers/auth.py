@@ -11,10 +11,7 @@ Endpoints:
 """
 
 import random
-import smtplib
 import time
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
 from typing import Dict
 
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -46,14 +43,11 @@ _reset_store: Dict[str, dict] = {}
 
 
 def _send_email(to_email: str, subject: str, otp: str, label: str = "Email Verification Code") -> None:
-    """Generic OTP email sender."""
-    if not settings.SMTP_USER or not settings.SMTP_PASSWORD:
-        raise HTTPException(status_code=503, detail="Email service is not configured.")
+    """Send OTP email via Brevo HTTP API."""
+    import httpx
 
-    msg = MIMEMultipart("alternative")
-    msg["Subject"] = subject
-    msg["From"] = settings.SMTP_USER
-    msg["To"] = to_email
+    if not settings.BREVO_API_KEY or not settings.BREVO_SENDER_EMAIL:
+        raise HTTPException(status_code=503, detail="Email service is not configured.")
 
     html = f"""
     <div style="font-family:sans-serif;max-width:480px;margin:auto;padding:32px;background:#0f0f13;color:#e2e8f0;border-radius:12px;">
@@ -63,12 +57,23 @@ def _send_email(to_email: str, subject: str, otp: str, label: str = "Email Verif
       <p style="color:#64748b;font-size:13px;margin-top:24px;">This code expires in 10 minutes. If you didn't request this, ignore this email.</p>
     </div>
     """
-    msg.attach(MIMEText(html, "html"))
 
-    with smtplib.SMTP(settings.SMTP_HOST, settings.SMTP_PORT) as server:
-        server.starttls()
-        server.login(settings.SMTP_USER, settings.SMTP_PASSWORD)
-        server.sendmail(settings.SMTP_USER, to_email, msg.as_string())
+    response = httpx.post(
+        "https://api.brevo.com/v3/smtp/email",
+        headers={
+            "api-key": settings.BREVO_API_KEY,
+            "Content-Type": "application/json",
+        },
+        json={
+            "sender": {"name": "DhanSathi", "email": settings.BREVO_SENDER_EMAIL},
+            "to": [{"email": to_email}],
+            "subject": subject,
+            "htmlContent": html,
+        },
+    )
+
+    if response.status_code not in (200, 201):
+        raise HTTPException(status_code=503, detail=f"Failed to send email: {response.text}")
 
 
 def _send_otp_email(to_email: str, otp: str) -> None:

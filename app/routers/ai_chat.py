@@ -70,10 +70,6 @@ class ChatRequest(BaseModel):
 class ChatResponse(BaseModel):
     message: MessageOut
     session_title: str = ""
-    verified: bool = False
-    confidence_score: int = 0
-    attempts: int = 1
-    verification_note: str = ""
 
 
 class TitleUpdate(BaseModel):
@@ -250,8 +246,4 @@ def chat_in_session(
     return ChatResponse(
         message=MessageOut(id=ai_msg.id, role=ai_msg.role, content=ai_msg.content, created_at=_fmt(ai_msg.created_at)),
         session_title=s.title,
-        verified=result.get("verified", False),
-        confidence_score=result.get("confidence_score", 0),
-        attempts=result.get("attempts", 1),
-        verification_note=result.get("verification_note", ""),
     )

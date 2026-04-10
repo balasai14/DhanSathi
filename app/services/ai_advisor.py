@@ -280,76 +280,66 @@ The user's financial data is provided below. Use it to answer their question in 
 # CALL OPENAI (via OpenRouter)
 # ─────────────────────────────────────────────────────────
 
-def _call_openai(
+def _call_llm(
     financial_context: str,
     user_message: str,
     conversation_history: list[dict]
 ) -> str:
     """
-    Call OpenAI API (via OpenRouter) with financial context.
-    
-    OpenRouter allows using OpenAI models with a single API key.
+    Call the configured LLM via OpenRouter.
+    Supports both standard OpenAI-compatible models and Perplexity models.
+    Perplexity models (perplexity/*) have live web search built in.
     """
     try:
         from openai import OpenAI
-        
-        # OpenRouter uses OpenAI-compatible API
-        # Just change the base_url to use OpenRouter
+
         client = OpenAI(
             api_key=settings.OPENAI_API_KEY,
-            base_url="https://openrouter.ai/api/v1"  # OpenRouter endpoint
+            base_url="https://openrouter.ai/api/v1"
         )
-        
-        # Build messages
-        messages = [
-            {"role": "system", "content": SYSTEM_PROMPT},
-            {"role": "system", "content": f"USER'S FINANCIAL DATA:\n\n{financial_context}"}
-        ]
-        
-        # Add conversation history
+
+        is_perplexity = settings.OPENAI_MODEL.startswith("perplexity/")
+
+        # Perplexity doesn't support multiple system messages — merge them
+        if is_perplexity:
+            merged_system = f"{SYSTEM_PROMPT}\n\nUSER'S FINANCIAL DATA:\n\n{financial_context}"
+            messages = [{"role": "system", "content": merged_system}]
+        else:
+            messages = [
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "system", "content": f"USER'S FINANCIAL DATA:\n\n{financial_context}"}
+            ]
+
         messages.extend(conversation_history)
-        
-        # Add current question
         messages.append({"role": "user", "content": user_message})
-        
-        # Call OpenAI via OpenRouter
+
         response = client.chat.completions.create(
-            model=settings.OPENAI_MODEL,  # e.g., "gpt-4o-mini" or "gpt-4"
+            model=settings.OPENAI_MODEL,
             messages=messages,
             temperature=0.7,
             max_tokens=2048,
         )
-        
+
         return response.choices[0].message.content or "No response generated."
-    
+
     except ImportError:
         return "⚠️ OpenAI SDK not installed. Run: `pip install openai`"
     except Exception as e:
-        logger.error(f"OpenAI API error: {e}")
+        logger.error(f"LLM API error: {e}")
         error_str = str(e).lower()
-        
+
         if "api key" in error_str or "unauthorized" in error_str or "401" in error_str:
             return (
-                "🔑 **Invalid or Missing OpenAI API Key**\n\n"
+                "🔑 **Invalid or Missing API Key**\n\n"
                 "Please check your configuration:\n\n"
                 "1. Make sure `OPENAI_API_KEY` is set in your `.env` file\n"
-                "2. If using OpenRouter, get your key at https://openrouter.ai/keys\n"
-                "3. Set in `.env`: `OPENAI_API_KEY=your_openrouter_key_here`\n"
-                "4. Restart the server\n\n"
-                "**OpenRouter Benefits:**\n"
-                "• Access to multiple AI models with one key\n"
-                "• Pay-as-you-go pricing\n"
-                "• No rate limits on paid tier"
+                "2. Get your OpenRouter key at https://openrouter.ai/keys\n"
+                "3. Restart the server\n\n"
+                "**Current model:** `" + settings.OPENAI_MODEL + "`\n"
+                "For Perplexity with live search, set: `OPENAI_MODEL=perplexity/sonar`"
             )
         elif "rate limit" in error_str or "429" in error_str:
-            return (
-                "🚫 **Rate Limit Reached**\n\n"
-                "You've hit the API rate limit.\n\n"
-                "**Solutions:**\n"
-                "1. Wait a minute and try again\n"
-                "2. Upgrade your OpenRouter plan at https://openrouter.ai/\n"
-                "3. Use a different model with higher limits"
-            )
+            return "🚫 **Rate limit reached.** Wait a moment and try again."
         else:
             return f"⚠️ AI service error: {str(e)}\n\nPlease try again in a moment."
 
@@ -421,9 +411,9 @@ def chat_with_advisor(
             if role in ("user", "assistant") and content.strip():
                 history.append({"role": role, "content": content})
     
-    # Step 3: Call OpenAI
-    logger.info(f"Calling OpenAI for user {user_id}: {user_message[:50]}...")
-    ai_response = _call_openai(financial_context, user_message, history)
+    # Step 3: Call LLM
+    logger.info(f"Calling {settings.OPENAI_MODEL} for user {user_id}: {user_message[:50]}...")
+    ai_response = _call_llm(financial_context, user_message, history)
     
     # Step 4: Return response
     return {
