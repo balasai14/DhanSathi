@@ -12,6 +12,7 @@ from sqlalchemy.sql import func
 import enum
 
 from app.database import Base
+from app.utils.crypto import EncryptedFloat
 
 
 class ExpenseCategory(str, enum.Enum):
@@ -35,7 +36,7 @@ class Expense(Base):
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     category = Column(Enum(ExpenseCategory), nullable=False, unique=False)
     label = Column(String(255), nullable=False)            # e.g. "House Rent", "Groceries", "Netflix"
-    monthly_amount = Column(Float, nullable=False)          # fixed monthly spend
+    monthly_amount = Column(EncryptedFloat, nullable=False)    # fixed monthly spend
     is_active = Column(Integer, default=1)                  # 1 = active, 0 = paused
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 

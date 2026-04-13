@@ -239,10 +239,10 @@ export default function PortfolioPage() {
                         onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
                         onClick={() => { setForm({ ...form, name: item.name, ticker_symbol: item.symbol }); setShowDropdown(false); }}>
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                          <span style={{ fontWeight: 500, fontSize: 13, color: "var(--text-primary)" }}>{item.name}</span>
+                          <span style={{ fontWeight: 600, fontSize: 13, color: "var(--text-primary)" }}>{item.name}</span>
                           <span className="badge badge-indigo" style={{ marginLeft: 8 }}>{item.type}</span>
                         </div>
-                        <p style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 2 }}>{item.symbol} · {item.exchange}</p>
+                        <p style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 2 }}>{item.exchange} · <span style={{ fontFamily: "monospace" }}>{item.symbol}</span></p>
                       </li>
                     ))}
                   </ul>

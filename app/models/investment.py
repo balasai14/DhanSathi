@@ -11,6 +11,7 @@ from sqlalchemy.sql import func
 import enum
 
 from app.database import Base
+from app.utils.crypto import EncryptedFloat
 
 
 class InvestmentType(str, enum.Enum):
@@ -34,12 +35,12 @@ class Investment(Base):
     ticker_symbol = Column(String(50), nullable=True)     # e.g. "RELIANCE.NS" (Yahoo format)
     investment_type = Column(Enum(InvestmentType), nullable=False)
 
-    quantity = Column(Float, nullable=False)               # number of shares/units
-    buy_price = Column(Float, nullable=False)              # price per unit at purchase
+    quantity = Column(EncryptedFloat, nullable=False)         # number of shares/units
+    buy_price = Column(EncryptedFloat, nullable=False)         # price per unit at purchase
     buy_date = Column(Date, nullable=False)
 
     # For fixed-return instruments (FD, PPF)
-    interest_rate = Column(Float, nullable=True)           # annual rate (e.g. 7.5)
+    interest_rate = Column(EncryptedFloat, nullable=True)      # annual rate (e.g. 7.5)
     maturity_date = Column(Date, nullable=True)
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())

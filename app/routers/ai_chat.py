@@ -207,6 +207,13 @@ def chat_in_session(
     """
     s = _get_session_or_404(session_id, current_user.id, db)
 
+    # Block if session has hit the 20-message limit
+    if len(s.messages) >= 20:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="This chat has reached its 20-message limit. Please start a new chat.",
+        )
+
     # Save user message
     user_msg = ChatMessage(session_id=s.id, role="user", content=payload.message)
     db.add(user_msg)

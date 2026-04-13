@@ -9,6 +9,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
 from app.database import Base
+from app.utils.crypto import EncryptedFloat
 
 
 class EmergencyFund(Base):
@@ -18,9 +19,9 @@ class EmergencyFund(Base):
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
 
     fund_name = Column(String(255), nullable=False, default="Emergency Fund")
-    current_amount = Column(Float, nullable=False, default=0)
-    target_amount = Column(Float, nullable=False)             # goal corpus
-    monthly_contribution = Column(Float, nullable=False, default=0)
+    current_amount = Column(EncryptedFloat, nullable=False, default=0)
+    target_amount = Column(EncryptedFloat, nullable=False)             # goal corpus
+    monthly_contribution = Column(EncryptedFloat, nullable=False, default=0)
     months_of_expenses = Column(Integer, nullable=False, default=6)  # target coverage months
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())

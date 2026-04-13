@@ -10,6 +10,7 @@ from sqlalchemy.sql import func
 import enum
 
 from app.database import Base
+from app.utils.crypto import EncryptedFloat
 
 
 class RetirementAccountType(str, enum.Enum):
@@ -29,12 +30,12 @@ class RetirementPlan(Base):
 
     plan_name = Column(String(255), nullable=False)           # e.g. "EPF Account"
     account_type = Column(Enum(RetirementAccountType), nullable=False)
-    current_value = Column(Float, nullable=False, default=0)  # current corpus
-    monthly_contribution = Column(Float, nullable=False, default=0)
-    expected_return_rate = Column(Float, nullable=False, default=8.0)  # % p.a.
+    current_value = Column(EncryptedFloat, nullable=False, default=0)  # current corpus
+    monthly_contribution = Column(EncryptedFloat, nullable=False, default=0)
+    expected_return_rate = Column(EncryptedFloat, nullable=False, default=8.0)  # % p.a.
     current_age = Column(Integer, nullable=True)
     retirement_age = Column(Integer, nullable=True, default=60)
-    desired_monthly_income = Column(Float, nullable=True)     # post-retirement monthly need
+    desired_monthly_income = Column(EncryptedFloat, nullable=True)  # post-retirement monthly need
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())

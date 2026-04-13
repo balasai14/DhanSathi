@@ -79,16 +79,7 @@ function ChangePasswordModal({ onClose }: { onClose: () => void }) {
   const modal = (
     <div style={{ position: "fixed", inset: 0, zIndex: 9999, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.6)", backdropFilter: "blur(4px)" }}
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
-      <div style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: "var(--r-xl)", padding: 28, width: "100%", maxWidth: 400, margin: "0 16px" }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <KeyRound size={18} style={{ color: "var(--indigo-light)" }} />
-            <span style={{ fontWeight: 700, fontSize: 16, color: "var(--text-primary)" }}>Change Password</span>
-          </div>
-          <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-muted)", display: "flex" }}>
-            <X size={18} />
-          </button>
-        </div>
+      <div style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: "var(--r-xl)", padding: 28, width: "100%", maxWidth: 400, margin: "0 16px" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <KeyRound size={18} style={{ color: "var(--indigo-light)" }} />

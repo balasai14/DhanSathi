@@ -16,6 +16,7 @@ from app.database import Base
 
 # Import all models so Base.metadata has them registered
 from app.models import user, income, expense, investment, loan  # noqa: F401
+from app.models import budget, emergency_fund, insurance, goal, retirement, tax, chat_session  # noqa: F401
 
 # ── Alembic Config ───────────────────────────────────────
 config = context.config

@@ -234,6 +234,8 @@ export default function AiChatPage() {
     r.start();
   }, [listening, handleSendText]);
 
+  const isAtLimit = (activeSession?.messages.length ?? 0) >= 20;
+
   return (
     <div style={{ display: "flex", height: "calc(100vh - 100px)", overflow: "hidden" }}>
 
@@ -373,34 +375,47 @@ export default function AiChatPage() {
         {/* Input */}
         {activeSession && (
           <div style={{ padding: "10px 14px", borderTop: "1px solid var(--border)", flexShrink: 0 }}>
-            {listening && (
-              <div className="fade-in" style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6, padding: "5px 10px", borderRadius: "var(--r-md)", background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.2)" }}>
-                <div style={{ width: 7, height: 7, borderRadius: "50%", background: "var(--red)", animation: "pulse 1s ease-in-out infinite" }} />
-                <span style={{ fontSize: 11, color: "var(--red)", fontWeight: 600 }}>Listening — click mic to stop & send</span>
-                <span style={{ fontSize: 11, color: "var(--text-muted)", marginLeft: "auto", maxWidth: 200, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{input || "—"}</span>
-              </div>
-            )}
-            <div className="card" style={{ display: "flex", alignItems: "center", gap: 8, padding: "9px 12px" }}>
-              <input ref={inputRef} type="text" value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
-                placeholder={listening ? "Listening..." : "Ask your Virtual CFO anything..."}
-                style={{ flex: 1, background: "transparent", border: "none", outline: "none", fontSize: 13, color: "var(--text-primary)" }}
-                disabled={loading || listening} />
-              {voiceSupported && (
-                <button onClick={toggleVoice} disabled={loading} title={listening ? "Stop & send" : "Voice input"}
-                  style={{ width: 32, height: 32, borderRadius: "var(--r-sm)", flexShrink: 0, border: listening ? "none" : "1px solid var(--border)", background: listening ? "rgba(239,68,68,0.15)" : "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", transition: "all 200ms var(--ease)" }}>
-                  {listening ? <MicOff size={14} color="var(--red)" /> : <Mic size={14} color="var(--text-muted)" />}
+            {isAtLimit ? (
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8, padding: "12px 16px", borderRadius: "var(--r-md)", background: "rgba(99,102,241,0.07)", border: "1px solid rgba(99,102,241,0.2)" }}>
+                <p style={{ fontSize: 12, color: "var(--text-secondary)", textAlign: "center" }}>
+                  This chat has reached its limit. Start a new chat to continue.
+                </p>
+                <button onClick={newChat} className="btn btn-primary" style={{ fontSize: 11, padding: "5px 14px", gap: 6 }}>
+                  <Plus size={11} /> New Chat
                 </button>
-              )}
-              <button onClick={handleSend} disabled={loading || !input.trim() || listening}
-                style={{ width: 32, height: 32, borderRadius: "var(--r-sm)", flexShrink: 0, border: input.trim() ? "none" : "1px solid var(--border)", background: input.trim() ? "var(--grad-primary)" : "transparent", cursor: input.trim() ? "pointer" : "default", display: "flex", alignItems: "center", justifyContent: "center", opacity: input.trim() ? 1 : 0.35, transition: "all 200ms var(--ease)" }}>
-                <Send size={14} color={input.trim() ? "white" : "#64748b"} />
-              </button>
-            </div>
-            <p style={{ fontSize: 9, color: "var(--text-muted)", textAlign: "center", marginTop: 5 }}>
-              Powered by AI · Your data stays private
-            </p>
+              </div>
+            ) : (
+              <>
+                {listening && (
+                  <div className="fade-in" style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6, padding: "5px 10px", borderRadius: "var(--r-md)", background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.2)" }}>
+                    <div style={{ width: 7, height: 7, borderRadius: "50%", background: "var(--red)", animation: "pulse 1s ease-in-out infinite" }} />
+                    <span style={{ fontSize: 11, color: "var(--red)", fontWeight: 600 }}>Listening — click mic to stop & send</span>
+                    <span style={{ fontSize: 11, color: "var(--text-muted)", marginLeft: "auto", maxWidth: 200, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{input || "—"}</span>
+                  </div>
+                )}
+                <div className="card" style={{ display: "flex", alignItems: "center", gap: 8, padding: "9px 12px" }}>
+                  <input ref={inputRef} type="text" value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
+                    placeholder={listening ? "Listening..." : "Ask your Virtual CFO anything..."}
+                    style={{ flex: 1, background: "transparent", border: "none", outline: "none", fontSize: 13, color: "var(--text-primary)" }}
+                    disabled={loading || listening} />
+                  {voiceSupported && (
+                    <button onClick={toggleVoice} disabled={loading} title={listening ? "Stop & send" : "Voice input"}
+                      style={{ width: 32, height: 32, borderRadius: "var(--r-sm)", flexShrink: 0, border: listening ? "none" : "1px solid var(--border)", background: listening ? "rgba(239,68,68,0.15)" : "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", transition: "all 200ms var(--ease)" }}>
+                      {listening ? <MicOff size={14} color="var(--red)" /> : <Mic size={14} color="var(--text-muted)" />}
+                    </button>
+                  )}
+                  <button onClick={handleSend} disabled={loading || !input.trim() || listening}
+                    style={{ width: 32, height: 32, borderRadius: "var(--r-sm)", flexShrink: 0, border: input.trim() ? "none" : "1px solid var(--border)", background: input.trim() ? "var(--grad-primary)" : "transparent", cursor: input.trim() ? "pointer" : "default", display: "flex", alignItems: "center", justifyContent: "center", opacity: input.trim() ? 1 : 0.35, transition: "all 200ms var(--ease)" }}>
+                    <Send size={14} color={input.trim() ? "white" : "#64748b"} />
+                  </button>
+                </div>
+                <p style={{ fontSize: 9, color: "var(--text-muted)", textAlign: "center", marginTop: 5 }}>
+                  Powered by AI · Your data stays private · AI can make mistakes — always verify before acting
+                </p>
+              </>
+            )}
           </div>
         )}
       </div>

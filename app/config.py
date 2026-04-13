@@ -39,6 +39,9 @@ class Settings(BaseSettings):
     GOOGLE_CLIENT_SECRET: str = ""
     GOOGLE_REDIRECT_URI: str = "http://localhost:3000/auth/callback"
 
+    # ── Field-level Encryption ───────────────────────────
+    FIELD_ENCRYPTION_KEY: str = ""  # Fernet key — generate with: python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
+
     # ── Email / Brevo ─────────────────────────────────────
     BREVO_API_KEY: str = ""
     BREVO_SENDER_EMAIL: str = ""  # must be verified in Brevo dashboard

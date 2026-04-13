@@ -10,6 +10,7 @@ from sqlalchemy.sql import func
 import enum
 
 from app.database import Base
+from app.utils.crypto import EncryptedFloat
 
 
 class GoalCategory(str, enum.Enum):
@@ -38,9 +39,9 @@ class FinancialGoal(Base):
 
     goal_name = Column(String(255), nullable=False)           # e.g. "Buy a Honda City"
     category = Column(Enum(GoalCategory), nullable=False)
-    target_amount = Column(Float, nullable=False)
-    current_amount = Column(Float, nullable=False, default=0)
-    monthly_contribution = Column(Float, nullable=False, default=0)
+    target_amount = Column(EncryptedFloat, nullable=False)
+    current_amount = Column(EncryptedFloat, nullable=False, default=0)
+    monthly_contribution = Column(EncryptedFloat, nullable=False, default=0)
     target_date = Column(Date, nullable=True)
     status = Column(Enum(GoalStatus), nullable=False, default=GoalStatus.ACTIVE)
     notes = Column(String(500), nullable=True)
