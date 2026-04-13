@@ -11,6 +11,7 @@ from sqlalchemy.sql import func
 import enum
 
 from app.database import Base
+from app.utils.crypto import EncryptedFloat
 
 
 class BudgetCategory(str, enum.Enum):
@@ -39,8 +40,8 @@ class Budget(Base):
 
     month = Column(String(7), nullable=False)                 # e.g. "2025-03"
     category = Column(Enum(BudgetCategory), nullable=False)
-    budgeted_amount = Column(Float, nullable=False)           # planned spend
-    actual_amount = Column(Float, nullable=False, default=0)  # actual spend
+    budgeted_amount = Column(EncryptedFloat, nullable=False)      # planned spend
+    actual_amount = Column(EncryptedFloat, nullable=False, default=0)  # actual spend
     notes = Column(String(255), nullable=True)
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())

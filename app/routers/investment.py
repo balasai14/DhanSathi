@@ -50,12 +50,18 @@ async def search_investments(
             for quote in quotes:
                 # Filter out pure indices or unknown types if needed, or just return them
                 if quote.get("quoteType") not in ["INDEX", "CURRENCY"]:
+                    name = quote.get("longname") or quote.get("shortname") or quote.get("symbol")
                     results.append({
                         "symbol": quote.get("symbol", ""),
-                        "name": quote.get("shortname") or quote.get("longname") or quote.get("symbol"),
+                        "name": name,
                         "type": quote.get("quoteType", "OTHER"),
                         "exchange": quote.get("exchange", "")
                     })
+            # Sort: name-matched results first, ticker-matched last
+            q_lower = q.lower()
+            results.sort(key=lambda r: (
+                0 if r["name"] and q_lower in r["name"].lower() else 1
+            ))
             return results
         except Exception as e:
             print("Error YF search:", e)

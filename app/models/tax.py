@@ -10,6 +10,7 @@ from sqlalchemy.sql import func
 import enum
 
 from app.database import Base
+from app.utils.crypto import EncryptedFloat
 
 
 class TaxRegime(str, enum.Enum):
@@ -37,11 +38,11 @@ class TaxRecord(Base):
 
     financial_year = Column(String(10), nullable=False)       # e.g. "2024-25"
     regime = Column(Enum(TaxRegime), nullable=False, default=TaxRegime.NEW)
-    gross_income = Column(Float, nullable=False, default=0)
+    gross_income = Column(EncryptedFloat, nullable=False, default=0)
     deduction_section = Column(Enum(DeductionSection), nullable=False)
     deduction_label = Column(String(255), nullable=False)     # e.g. "PPF Contribution"
-    deduction_amount = Column(Float, nullable=False)
-    tax_paid = Column(Float, nullable=True, default=0)        # TDS / advance tax paid
+    deduction_amount = Column(EncryptedFloat, nullable=False)
+    tax_paid = Column(EncryptedFloat, nullable=True, default=0)  # TDS / advance tax paid
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())

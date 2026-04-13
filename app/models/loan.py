@@ -11,6 +11,7 @@ from sqlalchemy.sql import func
 import enum
 
 from app.database import Base
+from app.utils.crypto import EncryptedFloat
 
 
 class LoanType(str, enum.Enum):
@@ -32,11 +33,11 @@ class Loan(Base):
     loan_name = Column(String(255), nullable=False)            # e.g. "HDFC Home Loan"
     loan_type = Column(Enum(LoanType), nullable=False)
 
-    principal_amount = Column(Float, nullable=False)            # original loan amount
-    outstanding_balance = Column(Float, nullable=False)         # current remaining balance
-    interest_rate = Column(Float, nullable=False)               # annual interest rate (%)
-    tenure_months = Column(Integer, nullable=False)             # total tenure in months
-    emi_amount = Column(Float, nullable=False)                  # monthly EMI
+    principal_amount = Column(EncryptedFloat, nullable=False)   # original loan amount
+    outstanding_balance = Column(EncryptedFloat, nullable=False) # current remaining balance
+    interest_rate = Column(EncryptedFloat, nullable=False)       # annual interest rate (%)
+    tenure_months = Column(Integer, nullable=False)              # total tenure in months
+    emi_amount = Column(EncryptedFloat, nullable=False)          # monthly EMI
 
     start_date = Column(Date, nullable=False)
     is_active = Column(Integer, default=1)                      # 1 = ongoing, 0 = closed

@@ -10,6 +10,7 @@ from sqlalchemy.sql import func
 import enum
 
 from app.database import Base
+from app.utils.crypto import EncryptedFloat
 
 
 class InsuranceType(str, enum.Enum):
@@ -31,8 +32,8 @@ class InsurancePolicy(Base):
     policy_name = Column(String(255), nullable=False)         # e.g. "LIC Jeevan Anand"
     insurance_type = Column(Enum(InsuranceType), nullable=False)
     insurer = Column(String(255), nullable=True)              # e.g. "LIC", "HDFC Ergo"
-    coverage_amount = Column(Float, nullable=False)           # sum assured
-    annual_premium = Column(Float, nullable=False)
+    coverage_amount = Column(EncryptedFloat, nullable=False)  # sum assured
+    annual_premium = Column(EncryptedFloat, nullable=False)
     policy_start_date = Column(Date, nullable=True)
     policy_end_date = Column(Date, nullable=True)
     is_active = Column(Integer, default=1)
